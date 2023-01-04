@@ -14,5 +14,11 @@
         public string Order { get; set; } = "asc";
 
         public string Sort { get; set; } = null;
+
+        public int Records
+        {
+            get => NumRecordsPage;
+            set => NumRecordsPage = (value > NumMaxRecordsPage) ? NumRecordsPage : value;
+        }
     }
 }
