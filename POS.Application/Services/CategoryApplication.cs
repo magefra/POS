@@ -47,7 +47,7 @@ namespace POS.Application.Services
         public async Task<BaseResponse<IEnumerable<CategorySelectResponseDto>>> ListSelectCategories()
         {
             var response = new BaseResponse<IEnumerable<CategorySelectResponseDto>>();
-            var categories = _unitOfWork.Category.ListSelectCategories();
+            var categories = await _unitOfWork.Category.ListSelectCategories();
 
             if (categories is not null)
             {
@@ -68,7 +68,7 @@ namespace POS.Application.Services
         {
             var response = new BaseResponse<bool>();
             var validationResult = await _validator.ValidateAsync(requestDto);
-            if (validationResult.IsValid)
+            if (!validationResult.IsValid)
             {
                 response.Message = ReplyMessage.MESSAAGE_VALIDATE;
                 response.IsSuccesss = false;

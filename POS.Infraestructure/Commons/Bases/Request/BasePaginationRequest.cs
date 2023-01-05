@@ -3,7 +3,7 @@
     public class BasePaginationRequest
     {
         //Número de pagina.
-        public int NumPage { get; set; }
+        public int NumPage { get; set; } = 1;
 
         //Registro por pagina
         public int NumRecordsPage { get; set; } = 10;
@@ -13,7 +13,7 @@
 
         public string Order { get; set; } = "asc";
 
-        public string Sort { get; set; } = null;
+        public string? Sort { get; set; } = null;
 
         public int Records
         {
