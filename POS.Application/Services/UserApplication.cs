@@ -7,6 +7,8 @@ using POS.Application.Interfaces;
 using POS.Domain.Entities;
 using POS.Infraestructure.Persistences.Interfaces;
 using POS.Utilities.Static;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using BC = BCrypt.Net.BCrypt;
 
@@ -56,7 +58,30 @@ namespace POS.Application.Services
 
         private string GenerateToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration[""]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));
+
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.NameId, user.Email!),
+                new Claim(JwtRegisteredClaimNames.FamilyName, user.UserName!),
+                new Claim(JwtRegisteredClaimNames.GivenName, user.Email!),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, Guid.NewGuid().ToString(), ClaimValueTypes.Integer64),
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["jwt:Issuer"],
+                audience: _configuration["jwt:Issuer"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(int.Parse(_configuration["jwt:Expires"])),
+                notBefore: DateTime.UtcNow,
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
