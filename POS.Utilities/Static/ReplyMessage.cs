@@ -10,6 +10,7 @@
         public const string MESSAGE_EXISTS = "El registro ya existe.";
         public const string MESSAGE_ACTIVATE = "El registro ha sido activado.";
         public const string MESSAAGE_TOKEN = "Token generado correctamente.";
+        public const string MESSAAGE_TOKEN_ERROR = "El usuario y/o contraseña es incorrecto.";
         public const string MESSAAGE_VALIDATE = "Errores de validación.";
         public const string MESSAAGE_FAILDER = "Operación fallida.";
     }

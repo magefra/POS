@@ -51,7 +51,26 @@ namespace POS.Application.Services
 
         public async Task<BaseResponse<string>> GenerateToken(TokenRequestDto tokenDto)
         {
-            throw new NotImplementedException();
+            var response = new BaseResponse<string>();
+
+            var account = await _unitOfWork.User.AccountByUserName(tokenDto.UserName!);
+            if (account is not null)
+            {
+                if (BC.Verify(tokenDto.Password, account.Password))
+                {
+                    response.IsSuccesss = true;
+                    response.Data = GenerateToken(account);
+                    response.Message = ReplyMessage.MESSAAGE_TOKEN;
+                    return response;
+                }
+                else
+                {
+                    response.IsSuccesss = false;
+                    response.Message = ReplyMessage.MESSAAGE_TOKEN_ERROR;
+                }
+            }
+
+            return response;
         }
 
 
