@@ -6,7 +6,7 @@ namespace POS.Infraestructure.FileStorage
     {
         Task<string> SaveFile(string container, IFormFile file);
         Task<string> EditFile(string container, IFormFile file, string route);
-        Task<string> RemoveFile(string route, string container);
+        Task RemoveFile(string route, string container);
 
     }
 }
