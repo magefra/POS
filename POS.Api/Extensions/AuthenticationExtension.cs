@@ -6,7 +6,7 @@ namespace POS.Api.Extensions
 {
     public static class AuthenticationExtension
     {
-        public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuthenticationService(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
